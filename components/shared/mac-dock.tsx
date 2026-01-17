@@ -5,23 +5,26 @@ import { useWindows } from "@/context/windowContext"
 import { FaWikipediaW } from "react-icons/fa"
 import React, { useEffect, useState } from "react"
 import AppMenu from "./app-menu"
-import { CaretUpIcon, NotePencilIcon } from "@phosphor-icons/react"
+import { CaretUpIcon, CheckSquareOffsetIcon, NotePencilIcon } from "@phosphor-icons/react"
 import { Button } from "../ui/button"
 import { log } from "console"
+import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 const apps = [
   { icon: Globe, id: "quiz" },
   { icon: User, id: "profile" },
   { icon: Settings, id: "settings" },
   { icon: FaWikipediaW, id: "wikiapp" },
-  { icon: NotePencilIcon, id: "synapse" }
+  { icon: NotePencilIcon, id: "synapse" },
+  { icon: CheckSquareOffsetIcon, id: "toodles" }
 ]
 
 
 export default function MacDock() {
   const { windows, open, restore, minimize, close } = useWindows()
 
-  const [hidden, setHidden] = useState(true)
+  const [hidden, setHidden] = useState(false)
   const [bouncing, setBouncing] = useState<string | null>(null)
   const [openedOnce, setOpenedOnce] = useState<Record<string, boolean>>({})
   const [menu, setMenu] = useState<{
@@ -124,7 +127,7 @@ export default function MacDock() {
     `}
         >
           {/* Menu */}
-          <AppMenu className="w-12 h-12 flex items-center justify-center rounded-xl shadow-sm hover:scale-125 hover:shadow-lg transition-all duration-150 bg-white/60" />
+          <AppMenu  />
 
           {/* Apps */}
           {apps.map(app => {
@@ -132,21 +135,46 @@ export default function MacDock() {
             const win = windows.find(w => w.app === app.id)
 
             return (
-              <button
-                key={app.id}
-                onClick={() => handleClick(app.id, win)}
-                onContextMenu={e => handleRightClick(e, app.id)}
-                className={`
-            w-12 h-12 flex items-center justify-center
-            rounded-xl shadow-sm
-            hover:scale-125 hover:shadow-lg
-            transition-all duration-150
-            ${win?.minimized ? "bg-orange-200/80" : win ? "bg-white" : "bg-white/60"}
-            ${bouncing === app.id ? "dock-bounce" : ""}
-          `}
-              >
-                <Icon className="w-6 h-6 text-gray-800" />
-              </button>
+              <Tooltip key={app.id}>
+                <TooltipTrigger asChild>
+                  <div className="relative group">
+                    <Button
+                      // logic preserved
+                      onClick={() => handleClick(app.id, win)}
+                      onContextMenu={(e) => handleRightClick(e, app.id)}
+                      className={cn(
+                        // Base macOS Style: Squircle shape & Glassmorphism
+                        "w-12 h-12 flex items-center justify-center rounded-2xl transition-all duration-300 ease-out",
+                        "border border-white/20 shadow-sm backdrop-blur-md",
+                        "hover:scale-125 hover:shadow-xl hover:z-50",
+
+                        // Logic-based Styling
+                        bouncing === app.id ? "animate-bounce" : "",
+                        win?.minimized
+                          ? "bg-white/30 brightness-90 opacity-80" // Minimized state
+                          : win
+                            ? "bg-white/40 shadow-inner"           // Active/Open state
+                            : "bg-white/20 hover:bg-white",      // Not open
+
+                        "text-gray-900 dark:text-white"
+                      )}
+                    >
+                      <Icon weight="regular" className="w-7 h-7" />
+                    </Button>
+
+                    {/* macOS Active Indicator Dot */}
+                    {win && (
+                      <div className={cn(
+                        "absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300",
+                        win.minimized ? "bg-white/40" : "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                      )} />
+                    )}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="bg-black/80 text-white border-none backdrop-blur-md px-3 py-1 text-xs">
+                  {app.id}
+                </TooltipContent>
+              </Tooltip>
             )
           })}
         </div>
@@ -204,7 +232,7 @@ export default function MacDock() {
             onClick={() => {
               const win = windows.find(w => w.app === menu.app)
               if (win) minimize(win.id)
-              
+
             }}
           />
           {/* <hr />

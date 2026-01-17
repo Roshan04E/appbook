@@ -28,10 +28,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`relative min-h-screen font-sans ${geistSans.variable} ${geistMono.variable}`}
-      >
         <RightClickProvider>
           <WindowProvider>
             {/* Wallpaper */}
@@ -56,7 +52,5 @@ export default function RootLayout({
             <MacDock />
           </WindowProvider>
         </RightClickProvider>
-      </body>
-    </html>
   );
 }

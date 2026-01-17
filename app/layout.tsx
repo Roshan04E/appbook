@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" id="portal-root" >
       <body
         className={`relative min-h-screen font-sans ${geistSans.variable} ${geistMono.variable}`}
       >
