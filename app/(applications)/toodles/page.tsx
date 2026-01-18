@@ -2,14 +2,12 @@
 
 import Toodles from "./toodles-app";
 
-
-const SynapsePage = () => {
-    return (
-        <div className="">
-            <Toodles />
-            
-        </div>
-    )
+const SynapsePage = async () => {
+  return (
+    <div className="">
+      <Toodles />
+    </div>
+  );
 };
 
 export default SynapsePage;
