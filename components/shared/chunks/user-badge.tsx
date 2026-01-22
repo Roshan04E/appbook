@@ -16,7 +16,7 @@ const UserMenu = ({ user }: { user: User }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="h-6 w-6 flex items-center justify-center cursor-pointer rounded-full bg-neutral-800 text-white flex items-center justify-center">
+        <Button className="h-6 w-6 p-0 m-0 flex items-center justify-center cursor-pointer rounded-full bg-neutral-800 text-white">
           {user.name?.[0]}
         </Button>
       </DropdownMenuTrigger>

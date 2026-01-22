@@ -51,6 +51,19 @@ export default SignInPage
 ```
 
 
-###Checks
-- update 1
-- update 2
+
+---
+
+# **Using the custom ` useMediaQuery( ) `**
+lets say to find the width of the app, not browser.. and it will behave as if the given reference of html element like a mini window from where we can query different media queries
+
+simple..
+- call it through useWindow Context
+```
+  const { appWindowRef } = useWindows();
+```
+- provide the refernce to the mediaQuery
+```
+  const isMobile = useMediaQuery(appWindowRef, 640);
+```
+- it will return **true** if the app width is less than 640

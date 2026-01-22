@@ -6,11 +6,12 @@ import TodoList from "./components/toodles.list";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Todo } from "./types";
+import { Loader2 } from "lucide-react";
 
 export default function Toodles() {
   const { data: session } = useSession();
   const userId = session?.user?.id;
-
+  const [isPending, setIsPending] = useState(true);
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
@@ -21,6 +22,8 @@ export default function Toodles() {
       setTodos(data);
     };
     loadData();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsPending(false);
   }, [userId]);
 
   if (!userId) return <>No user Id found. please sign in</>;

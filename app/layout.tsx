@@ -23,6 +23,20 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: "AppBook",
   description: "MacBook-style app desktop",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/appbook.svg",
+        href: "/appbook.svg",
+      },
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/appbook-dark.svg",
+        href: "/appbook-dark.svg",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

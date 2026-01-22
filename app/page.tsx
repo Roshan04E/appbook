@@ -10,7 +10,7 @@ const HomeApp = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
 
   return (
-    <>
+    <div>
       <RightClickProvider>
         <WindowProvider>
           {/* Wallpaper */}
@@ -30,12 +30,12 @@ const HomeApp = async ({ children }: { children: React.ReactNode }) => {
 
           {/* Main content (optional for static pages) */}
           <main className="">{children}</main>
-
+          <div>Hello</div>
           {/* Dock */}
           <MacDock />
         </WindowProvider>
       </RightClickProvider>
-    </>
+    </div>
   );
 };
 

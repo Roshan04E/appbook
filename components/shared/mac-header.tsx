@@ -1,6 +1,6 @@
 "use client";
 
-import { OpenAiLogoIcon } from "@phosphor-icons/react";
+import { CirclesFourIcon, OpenAiLogoIcon } from "@phosphor-icons/react";
 import {
   Wifi,
   Battery,
@@ -14,6 +14,9 @@ import { User } from "next-auth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserBadge from "./chunks/user-badge";
+import BatteryPercentage from "../system-status/battery";
+import SoundModule from "../system-status/sound-module";
+import WifiModule from "../system-status/wifi-module";
 
 const date = new Date().toLocaleDateString("en-GB", {
   day: "2-digit",
@@ -69,12 +72,12 @@ const MacHeader = ({ user }: { user?: User }) => {
       {/* Left */}
       <div className="flex items-center gap-3">
         {mobile ? (
-          <OpenAiLogoIcon size={20} weight="fill" />
+          <CirclesFourIcon size={20} weight="fill" />
         ) : (
           <>
             <span>
               <Link href={"/"}>
-                <OpenAiLogoIcon size={20} weight="fill" />
+                <CirclesFourIcon size={20} weight="fill" />
               </Link>
             </span>
             <span className="font-semibold">Finder</span>
@@ -88,9 +91,9 @@ const MacHeader = ({ user }: { user?: User }) => {
       {/* Right */}
       <div className="flex items-center gap-2 sm:gap-3">
         {!mobile && <Search size={16} />}
-        <Wifi size={16} />
-        {!mobile && <Volume2 size={16} />}
-        <Battery size={16} />
+        <WifiModule />
+        {!mobile && <SoundModule />}
+        <BatteryPercentage />
 
         {/* Fullscreen button */}
         <button onClick={toggleFullscreen} className="text-xs hover:opacity-70">

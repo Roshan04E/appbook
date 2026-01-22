@@ -1,15 +1,20 @@
-'use client'
+"use client";
 
-import { Globe, Settings, User } from "lucide-react"
-import { useWindows } from "@/context/windowContext"
-import { FaWikipediaW } from "react-icons/fa"
-import React, { useEffect, useState } from "react"
-import AppMenu from "./app-menu"
-import { CaretUpIcon, CheckSquareOffsetIcon, NotePencilIcon } from "@phosphor-icons/react"
-import { Button } from "../ui/button"
-import { log } from "console"
-import { cn } from "@/lib/utils"
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { Globe, Settings, User } from "lucide-react";
+import { useWindows } from "@/context/windowContext";
+import { FaWikipediaW } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import AppMenu from "./app-menu";
+import {
+  CaretUpIcon,
+  CheckSquareOffsetIcon,
+  HourglassSimpleIcon,
+  NotePencilIcon,
+} from "@phosphor-icons/react";
+import { Button } from "../ui/button";
+import { log } from "console";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const apps = [
   { icon: Globe, id: "quiz" },
@@ -17,50 +22,46 @@ const apps = [
   { icon: Settings, id: "settings" },
   { icon: FaWikipediaW, id: "wikiapp" },
   { icon: NotePencilIcon, id: "synapse" },
-  { icon: CheckSquareOffsetIcon, id: "toodles" }
-]
-
+  { icon: CheckSquareOffsetIcon, id: "toodles" },
+  { icon: HourglassSimpleIcon, id: "focusy" },
+];
 
 export default function MacDock() {
-  const { windows, open, restore, minimize, close } = useWindows()
+  const { windows, open, restore, minimize, close } = useWindows();
 
-  const [hidden, setHidden] = useState(false)
-  const [bouncing, setBouncing] = useState<string | null>(null)
-  const [openedOnce, setOpenedOnce] = useState<Record<string, boolean>>({})
+  const [hidden, setHidden] = useState(false);
+  const [bouncing, setBouncing] = useState<string | null>(null);
+  const [openedOnce, setOpenedOnce] = useState<Record<string, boolean>>({});
   const [menu, setMenu] = useState<{
-    x: number
-    y: number
-    app: string | null
-  } | null>(null)
-
+    x: number;
+    y: number;
+    app: string | null;
+  } | null>(null);
 
   /* Detect fullscreen window */
   useEffect(() => {
     const detect = () => {
-      let isMax = false
+      let isMax = false;
       document.querySelectorAll(".mac-window").forEach((w: any) => {
         if (
           Math.abs(w.offsetWidth - window.innerWidth) < 5 &&
           Math.abs(w.offsetHeight - window.innerHeight) < 5
         ) {
-          isMax = true
+          isMax = true;
         }
-      })
+      });
       // setHidden(isMax)
-    }
-    const i = setInterval(detect, 200)
-    return () => clearInterval(i)
-  }, [])
-
-
+    };
+    const i = setInterval(detect, 200);
+    return () => clearInterval(i);
+  }, []);
 
   // Right click detect
   useEffect(() => {
-    const close = () => setMenu(null)
-    window.addEventListener("click", close)
-    return () => window.removeEventListener("click", close)
-  }, [])
-
+    const close = () => setMenu(null);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, []);
 
   // Disable main menu
   // useEffect(() => {
@@ -69,35 +70,35 @@ export default function MacDock() {
   //   return () => window.removeEventListener("contextmenu", hideMenu, { capture: true })
   // }, [])
 
-
-
   const handleRightClick = (e: React.MouseEvent, appId: string) => {
     e.preventDefault();
     e.stopPropagation();
     setMenu({
       x: e.clientX,
       y: e.clientY,
-      app: appId
-    })
-  }
-
-
+      app: appId,
+    });
+  };
 
   const handleClick = (appId: string, win: any) => {
     if (!win) {
-      open(appId)
+      open(appId);
       if (!openedOnce[appId]) {
-        setBouncing(appId)
-        setOpenedOnce(o => ({ ...o, [appId]: true }))
-        setTimeout(() => setBouncing(null), 350) // ⚡ fast bounce
+        setBouncing(appId);
+        setOpenedOnce((o) => ({ ...o, [appId]: true }));
+        setTimeout(() => setBouncing(null), 350); // ⚡ fast bounce
       }
-    } else if (win.minimized) restore(win.id)
-    else minimize(win.id)
-  }
+    } else if (win.minimized) restore(win.id);
+    else minimize(win.id);
+  };
 
-
-
-  const MenuItem = ({ text, onClick }: { text: string, onClick: () => void }) => (
+  const MenuItem = ({
+    text,
+    onClick,
+  }: {
+    text: string;
+    onClick: () => void;
+  }) => (
     <div
       onClick={onClick}
       className="
@@ -108,8 +109,7 @@ export default function MacDock() {
     >
       {text}
     </div>
-  )
-
+  );
 
   return (
     <>
@@ -127,12 +127,12 @@ export default function MacDock() {
     `}
         >
           {/* Menu */}
-          <AppMenu  />
+          <AppMenu />
 
           {/* Apps */}
-          {apps.map(app => {
-            const Icon = app.icon
-            const win = windows.find(w => w.app === app.id)
+          {apps.map((app) => {
+            const Icon = app.icon;
+            const win = windows.find((w) => w.app === app.id);
 
             return (
               <Tooltip key={app.id}>
@@ -153,10 +153,10 @@ export default function MacDock() {
                         win?.minimized
                           ? "bg-white/30 brightness-90 opacity-80" // Minimized state
                           : win
-                            ? "bg-white/40 shadow-inner"           // Active/Open state
-                            : "bg-white/20 hover:bg-white",      // Not open
+                            ? "bg-white/40 shadow-inner" // Active/Open state
+                            : "bg-white/20 hover:bg-white", // Not open
 
-                        "text-gray-900 dark:text-white"
+                        "text-gray-900 dark:text-white",
                       )}
                     >
                       <Icon weight="regular" className="w-7 h-7" />
@@ -164,25 +164,32 @@ export default function MacDock() {
 
                     {/* macOS Active Indicator Dot */}
                     {win && (
-                      <div className={cn(
-                        "absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300",
-                        win.minimized ? "bg-white/40" : "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-                      )} />
+                      <div
+                        className={cn(
+                          "absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-all duration-300",
+                          win.minimized
+                            ? "bg-white/40"
+                            : "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]",
+                        )}
+                      />
                     )}
                   </div>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="bg-black/80 text-white border-none backdrop-blur-md px-3 py-1 text-xs">
+                <TooltipContent
+                  side="top"
+                  className="bg-black/80 text-white border-none backdrop-blur-md px-3 py-1 text-xs"
+                >
                   {app.id}
                 </TooltipContent>
               </Tooltip>
-            )
+            );
           })}
         </div>
 
         {/* Toggle button fixed above dock */}
         <Button
           variant="ghost"
-          size={'sm'}
+          size={"sm"}
           onMouseEnter={() => setHidden(!hidden)}
           className="
             fixed bottom-0 left-1/2 -translate-x-1/2
@@ -202,8 +209,8 @@ export default function MacDock() {
             left: menu.x,
             top:
               menu.y + 160 > window.innerHeight
-                ? menu.y - 160   // show above
-                : menu.y        // show below
+                ? menu.y - 160 // show above
+                : menu.y, // show below
           }}
           className="
             fixed z-[9999]
@@ -214,35 +221,27 @@ export default function MacDock() {
           "
           onClick={() => setMenu(null)}
         >
-          <MenuItem
-            text="Open"
-            onClick={() => open(menu.app!)}
-          />
+          <MenuItem text="Open" onClick={() => open(menu.app!)} />
 
           <MenuItem
             text="Close"
             onClick={() => {
-              const win = windows.find(w => w.app === menu.app)
-              if (win) close(win.id)
+              const win = windows.find((w) => w.app === menu.app);
+              if (win) close(win.id);
             }}
           />
 
           <MenuItem
             text="Minimize"
             onClick={() => {
-              const win = windows.find(w => w.app === menu.app)
-              if (win) minimize(win.id)
-
+              const win = windows.find((w) => w.app === menu.app);
+              if (win) minimize(win.id);
             }}
           />
           {/* <hr />
           <MenuItem text="Pin to Dock" /> */}
         </div>
       )}
-
-
-
     </>
-
-  )
+  );
 }

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../node_modules/@blocknote/shadcn";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -121,5 +122,42 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* 1. Define the container */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    /* Firefox: Transparent by default */
+    scrollbar-color: #eee #eee;
+    transition: scrollbar-color 0.3s ease;
+  }
+
+  /* 2. Show on hover (Firefox) */
+  .custom-scrollbar:hover {
+    scrollbar-color: #ccc transparent;
+  }
+
+  /* 3. Webkit (Chrome/Safari/Edge) Logic */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    /* Transparent by default */
+    background-color: transparent;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  /* 4. The "Pro" Trigger: Show thumb when the sidebar is hovered */
+  /* We use the .group-hover class if you want it to show when the whole sidebar is touched */
+  .group\/sidebar:hover .custom-scrollbar::-webkit-scrollbar-thumb,
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklch, var(--foreground), transparent 80%);
+  }
+
+  /* 5. Dark mode adjustment */
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: transparent;
   }
 }
