@@ -171,6 +171,14 @@ export default function FocusyApp() {
                 <Volume2 size={12} />
                 Sound
               </label>
+              {/*<SoundControls
+                sound={sound}
+                setSound={setSound}
+                soundEnabled={soundEnabled}
+                setSoundEnabled={setSoundEnabled}
+                previewing={previewing}
+                togglePreview={togglePreview}
+              />*/}
               <SoundControls
                 sound={sound}
                 setSound={setSound}
@@ -178,6 +186,8 @@ export default function FocusyApp() {
                 setSoundEnabled={setSoundEnabled}
                 previewing={previewing}
                 togglePreview={togglePreview}
+                audioRef={audioRef} // Add this
+                setPreviewing={setPreviewing} // Add this
               />
             </div>
 

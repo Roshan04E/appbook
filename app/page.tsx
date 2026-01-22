@@ -5,6 +5,7 @@ import WindowManager from "@/components/window-manager";
 import RightClickProvider from "@/components/system-utils/right-click-handler";
 import React from "react";
 import { auth } from "@/auth";
+import { KeepAlive } from "@/components/shared/keep-alive";
 
 const HomeApp = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
@@ -24,6 +25,7 @@ const HomeApp = async ({ children }: { children: React.ReactNode }) => {
 
           {/* Window system */}
           <WindowManager />
+          <KeepAlive />
 
           {/* Header */}
           <MacHeader user={session?.user} />
