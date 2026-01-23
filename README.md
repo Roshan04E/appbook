@@ -7,6 +7,9 @@
 
 A MacBook-style web desktop where apps run as draggable and resizable windows.
 
+Try it live :)
+https://appbook-bice.vercel.app/
+
 ---
 
 ## Features
