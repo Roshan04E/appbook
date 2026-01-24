@@ -18,6 +18,31 @@ export default function MacWindow({
   const [max, setMax] = useState(false);
   const [prevBox, setPrevBox] = useState(DEFAULT);
 
+  // useEffect(() => {
+  //   if (window.innerWidth < 768) {
+  //     setBox({
+  //       x: 0,
+  //       y: 0,
+  //       w: window.innerWidth,
+  //       h: window.innerHeight,
+  //     });
+  //     setMax(true);
+  //     return;
+  //   }
+
+  //   const centerX = (window.innerWidth - DEFAULT.w) / 2;
+  //   const centerY = (window.innerHeight - DEFAULT.h) / 2;
+  //   const offset = (win.z - 1) * 30;
+
+  //   setBox({
+  //     x: centerX + offset,
+  //     y: centerY + offset,
+  //     w: DEFAULT.w,
+  //     h: DEFAULT.h,
+  //   });
+  // }, []);
+  //
+
   useEffect(() => {
     if (window.innerWidth < 768) {
       setBox({
@@ -32,11 +57,24 @@ export default function MacWindow({
 
     const centerX = (window.innerWidth - DEFAULT.w) / 2;
     const centerY = (window.innerHeight - DEFAULT.h) / 2;
-    const offset = (win.z - 1) * 30;
+
+    // Random offset between -20 to 20 pixels plus z-index offset
+    const randomX = Math.floor(Math.random() * 40) - 20;
+    const randomY = Math.floor(Math.random() * 40) - 20;
+    const stackOffset = (win.z - 1) * 25;
+
+    const newX = Math.max(
+      0,
+      Math.min(window.innerWidth - DEFAULT.w, centerX + stackOffset + randomX),
+    );
+    const newY = Math.max(
+      0,
+      Math.min(window.innerHeight - DEFAULT.h, centerY + stackOffset + randomY),
+    );
 
     setBox({
-      x: centerX + offset,
-      y: centerY + offset,
+      x: newX,
+      y: newY,
       w: DEFAULT.w,
       h: DEFAULT.h,
     });
