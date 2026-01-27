@@ -4,6 +4,7 @@ import { Orbitron } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { SessionProvider } from "next-auth/react";
+import NextTopLoader from "nextjs-toploader";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({
       >
         <Toaster />
         <SessionProvider>
+          <NextTopLoader color="#2563eb" />
           <main>{children}</main>
         </SessionProvider>
       </body>
