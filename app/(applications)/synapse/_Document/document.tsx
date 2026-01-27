@@ -61,7 +61,7 @@ const DocPage = ({
   return (
     <div
       className={cn(
-        "pl-13 pr-5 py-2 h-full w-full bg-white",
+        "pl-13 pr-5 py-2 h-full w-full bg-white overflow-auto custom-scrollbar",
         !isCollapsed && "pl-5",
       )}
     >
