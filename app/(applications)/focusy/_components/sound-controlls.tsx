@@ -58,6 +58,9 @@ const SoundControls = ({
         <option value="/focusy/audios/ring-interstellar.mp3">
           🌌 Interstellar
         </option>
+        <option value="/focusy/audios/lakshya-theme-bgm.mp3">
+          🎯 Lakshya BGM
+        </option>
       </select>
 
       <motion.button
